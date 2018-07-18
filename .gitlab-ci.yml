@@ -1,0 +1,7 @@
+image: kurron/nomad
+
+deploy:
+  stage: deploy
+  script:
+    - export NOMAD_ADDR="https://nomad.serial-experiments.com/"
+    - nomad run deploy.nomad
