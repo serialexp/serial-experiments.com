@@ -75,7 +75,7 @@ job "serial-experiments.com" {
     # automatically transitioned to unhealthy. Transitioning to unhealthy will
     # fail the deployment and potentially roll back the job if "auto_revert" is
     # set to true.
-    healthy_deadline = "3m"
+    healthy_deadline = "15m"
 
     # The "progress_deadline" parameter specifies the deadline in which an
     # allocation must be marked as healthy. The deadline begins when the first
@@ -83,7 +83,7 @@ job "serial-experiments.com" {
     # as part of the deployment transitions to a healthy state. If no allocation
     # transitions to the healthy state before the progress deadline, the
     # deployment is marked as failed.
-    progress_deadline = "10m"
+    progress_deadline = "15m"
 
     # The "auto_revert" parameter specifies if the job should auto-revert to the
     # last stable job on deployment failure. A job is marked as stable if all the
@@ -128,7 +128,7 @@ job "serial-experiments.com" {
     # Specifies the deadline in which the allocation must be marked as healthy
     # after which the allocation is automatically transitioned to unhealthy. This
     # is specified using a label suffix like "2m" or "1h".
-    healthy_deadline = "5m"
+    healthy_deadline = "30m"
   }
 
   # The "group" stanza defines a series of tasks that should be co-located on
