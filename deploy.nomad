@@ -215,6 +215,9 @@ job "serial-experiments.com" {
       # documentation for more information.
       config {
         image = "git.serial-experiments.com:4567/bart/serial-experiments.com"
+        #since it's always called 'latest'
+        force_pull = true
+
         port_map {
           http = 80
         }
