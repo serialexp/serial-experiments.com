@@ -1,4 +1,4 @@
-image: kurron/nomad
+image: git.serial-experiments.com:4567/registry/nomad
 
 deploy:
   stage: deploy
