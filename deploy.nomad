@@ -99,7 +99,7 @@ job "serial-experiments.com" {
     # Further, setting "canary" equal to the count of the task group allows
     # blue/green deployments. When the job is updated, a full set of the new
     # version is deployed and upon promotion the old version is stopped.
-    canary = 0
+    canary = 1
   }
 
   # The migrate stanza specifies the group's strategy for migrating off of
