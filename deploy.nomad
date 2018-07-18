@@ -88,7 +88,7 @@ job "serial-experiments.com" {
     # The "auto_revert" parameter specifies if the job should auto-revert to the
     # last stable job on deployment failure. A job is marked as stable if all the
     # allocations as part of its deployment were marked healthy.
-    auto_revert = false
+    auto_revert = true
 
     # The "canary" parameter specifies that changes to the job that would result
     # in destructive updates should create the specified number of canaries
@@ -214,21 +214,15 @@ job "serial-experiments.com" {
       # are specific to each driver, so please see specific driver
       # documentation for more information.
       config {
-        image = "eduwass/docker-nginx-php-git"
+        image = "git.serial-experiments.com:4567/bart/serial-experiments.com"
         port_map {
           http = 80
         }
-      }
 
-      env {
-        # repository to load code from
-        GIT_REPO = "git@git.serial-experiments.com:bart/serial-experiments.com.git"
-        # branch to load
-        GIT_BRANCH = "master"
-        # deployment key for this repository
-        SSH_KEY = "LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBbWRvbnFYVmp4OVdKKzhDZ0RLK3haTG90Vm1XNy9NSmVOVlZXQUFLRGJRbVB1MWs3CkN5V05IUHUwOG91ZjZBWGZoQTBVZnFWRHAxZ0Fzby9yZ3pJRTFZYVlEZm9ETUZtVFN4TkVodTF3alUyQytTTWYKUjFzeWVqRk5lTkNISVpMejlnNlpFTTNodHBHdERzTkxvWmFjTUlPK3FpSmNrS2dKODIxR3Y5bE5XUUprT1ZxUQpzYVdyUGdFc0E0em9HZE1LWWFnV3FtKzJvamhrblgvNmlaZjVGT3dvTEc1QTQ2ekNtcXVzcDdTcDZkdkNvYVNnCnVMdml4VUVWWERsN1gwcDZ0Qk8vYzB0eFFMNktxUU02R1gxSEhIUjV0eEhOak9meXBhZXdRa0tXZ0t6V3pabTYKcjJyVmpkeW9hcUNnRGdMUXE4YkErV3FGT29vRW5QU0JZWXFteXdJREFRQUJBb0lCQVFDQUIydWo5LzB0eVlTRwp6SmdqbG4wdmprSzJOL2pFOE5aRzJabTBibU1COU1mNEp0d2NmWVk5alRUWjlkaiswd3hhcml2VTdDQXRmTzB2CnF0WlltZUl0OGxCTXFUWElJWEtTTWhsL2tzMXJ1UW41MndGbmR2dTlkWk83cXdRWXExcDY4MURyQy9qOTNhSSsKdThRUFZ1N283R2xZMlRsZ1k0WE1YYTVYYmpTUWtVT1VMdUc0L3dWVkplUm8wTGZQZFZGMWNoc3c1bk01ajBONwpBaXN2NnExL2pSTVN3WkhRa2NrWlpjQ0plRk92Ull6TzNldGRxeVY2dVBSUkR3MUcwZnc5eW8zZ1FQRDRJMGF4CnJVZjJIWVhyYUtDaUNBdEJNdXU3YUlsZkdjQzVNakh3bnZVMnFJTG45NFRjdXZiNXRLZGo0b3NWQWVDNGpITWwKZjQ1RlVhOEJBb0dCQU1qY1QwczlnTU42MHhBb2Qza2pKZ3FaVnczcGNpc1ZBT1JwMW9JMnV2ODhVYVh1NFVRaQpmQlFDTkZGMmdDR0hWTnNaYm04UThXV1V4dmpaWUt3RUhjNnRydndiazdPMWVVWkhhVWZ4Vlg3aDFpVXVmOU5zCmZHeTlZT0JsZDdYZFo2eWRwSk5VRUFyQmNsMmxKTnBET281QmpJZ1RHd3hZemtBLzhyTjd5THBMQW9HQkFNUVcKUjJYaGZsYjM5KzFtYVlpMGVZNnM3Y0dxdnpkLzdpa2NrdFJqVFd1VkJuRHBKemVuc3RjcVhQQTMzSzJRVDg0ZgpCT0c3U2FhREJTQTBqWTJnTlhWK3dCTFFZbFhxNVphL2g1V2UrQjBoZXEyNkdCWEUwYnlRUFAwQys1ZmhURUhECkEzNnYzUFhscVoyaWJ3bjlMZS9ocGp1V05nOVFwZ3lPNXRDRWNmV0JBb0dCQUowYWxIckpORG14aS95TGFrYzUKa3J1ZmpGTzVVQzhhVW9SVnRBNU5PSjRDVStweG1ZaHRZSmRWMGc0Vm5jcWJ5MmREMFBqV1M3bWtVS3k3ZWIyUgp5cTZwY3NDRjRWVWlrQ1RFSGpqRExwZjdsRCtveXhwWE5FcnBKU2pldEc5dktYUCtLWWVDckxsODdUTUp4SFZqCk9CMmtiNExQVHN5dGVVVVB2NGxiUEhsWkFvR0FaNE92VzF4SDJ0ZDZ2WXVUNk1RRmE4bGtsaGx5YW5VUm9BaGkKaHRhSlYyTExqSzI0czB2SFFJa3ZtT3lVaGRlcUdaRU1mYkhtTm8zeUZjZElkdHg5ZkRKV2FWZ3lvVktvc3dVWApLV2hMYU8xMG11T2p0Vkk2dW9XV2ZLYW5kTTFOK1dWZW9mRnEvekNuY3Z6K0MxTHBmam9zREViRzhSek5HOUlRCmpVRnQrNEVDZ1lFQWp1b3J3cDZlT2NLQm1pdlVyUFdYU2hsSFdaTlVCemdENTVRUTNjRzFpbDgyZDBOK3VVaUEKQWZ5c3o0elFJVG14SXdMV05mbXRQUzN1a0JZTDNFNzRSK3NkQ2hlemYrZklNZ2g3eGpnVWNGQzBZWFptdnFYOAp0eEhYMmE2MFN1REIrUUUvOVZLZWxqOW5aWUR2dzRnU3YzWWJDRElkbEsrVURDZm55TTRlcnJ3PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo="
-        # webroot to run, code in /var/www/html
-        WEBROOT = "/var/www/html"
+        auth {
+          username = "bart"
+          password = "2ECDeaL8qfMBn4Nfbg8z"
+        }
       }
 
       # The "artifact" stanza instructs Nomad to download an artifact from a

@@ -1,6 +1,22 @@
-image: git.serial-experiments.com:4567/registry/nomad
+build:
+  image: docker:stable
+  stage: build
+  script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN git.serial-experiments.com:4567
+  - docker build -t git.serial-experiments.com:4567/bart/serial-experiments.com .
+  - docker push git.serial-experiments.com:4567/bart/serial-experiments.com
+  # When using dind, it's wise to use the overlayfs driver for
+  # improved performance.
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+  - docker:dind
+  before_script:
+  - docker info
+
 
 deploy:
+  image: git.serial-experiments.com:4567/registry/nomad
   stage: deploy
   script:
     - export NOMAD_ADDR="https://nomad.serial-experiments.com/"
