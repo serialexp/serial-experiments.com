@@ -17,7 +17,7 @@ stages:
 generate:
   image:
     name: klakegg/hugo:latest-ext
-    entrypoint: ["/bin/bash", "-l", "-c"]
+    entrypoint: ["/bin/bash"]
   stage: generate
   only:
     - master
