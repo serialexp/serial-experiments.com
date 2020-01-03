@@ -16,17 +16,12 @@ stages:
 
 generate:
   image:
-    name: alpine:latest
+    name: registry.gitlab.com/pages/hugo:latest
   stage: generate
   only:
     - master
   script:
-    - export VERSION=0.62.1
-    - apk add --no-cache git openssl py-pygments curl
-    - curl -L https://github.com/gohugoio/hugo/releases/download/v${VERSION}/hugo_extended_${VERSION}_Linux-64bit.tar.gz | tar -xz
-    - chmod +x hugo
-    - apk del curl
-    - ./hugo
+    - hugo
   artifacts:
     paths:
       - public
