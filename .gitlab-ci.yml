@@ -15,12 +15,14 @@ stages:
   - deploy
 
 generate:
-  image: klakegg/hugo:latest-ext
+  image:
+    name: klakegg/hugo:latest-ext
+    entrypoint: ["/bin/sh", "-c"]
   stage: generate
   only:
     - master
   script:
-    - hugo
+    - hugo-official
   artifacts:
     paths:
       - public
