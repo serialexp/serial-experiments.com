@@ -15,7 +15,7 @@
         {{ range first 10 .Site.RegularPages }}
         <div>
             <a href="{{ .Permalink }}"><time>{{ .Date.Format "Jan 2, 2006" }}</time>:
-            <strong>{{ .Title }}</strong></a>
+            <strong>{{ .Title }}</strong> ({{.ReadingTime}}m)</a>
         </div>
         {{ end }}
         <br />

@@ -8,7 +8,13 @@
         <time>{{ .Date.Format "Jan 2, 2006" }}</time>
         <br />
       </header>
-      <div class="homepage-content">
+      <div class="post-content">
+        {{ with .Resources.ByType "image" }}
+          {{ range . }}
+
+          {{ end }}
+        {{ end }}
+
         <!-- Note that the content for index.html, as a sort of list page, will pull from content/_index.md -->
         {{.Content}}
       </div>

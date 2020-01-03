@@ -1,0 +1,8 @@
+<!-- image -->
+
+    {{/* get file that matches the filename as specified as src="" in shortcode */}}
+    {{ $src := .Page.Resources.GetMatch (printf "*%s*" (.Get "src")) }}
+    {{ $img := $src | images.Filter (images.Grayscale) (images.Colorize 45 100 100) (images.Pixelate 4) }}
+    <img src="{{$img.RelPermalink}}" />
+
+<!-- image -->

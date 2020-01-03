@@ -4,6 +4,9 @@ $background: #221d1d;
 body, html {
   margin: 0;
   padding: 0;
+}
+
+html {
   height: 100%;
 }
 
@@ -15,7 +18,7 @@ body {
   background-color: $background;
   font-family: monospace;
   color: $primary;
-  padding: 8px 30%;
+  padding: 8px 30% 32px 30%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,6 +31,12 @@ a {
 
 ul, ol {
   list-style: none;
+}
+
+.post-content {
+  img {
+    max-width: 100%;
+  }
 }
 
 /* CRT */
@@ -44,13 +53,13 @@ $ease-in-quint:cubic-bezier(0.755, 0.050, 0.855, 0.060);
 body {
   background:$background;
   position:relative;
-  overflow:hidden;
+  overflow:auto;
 
   // flicker
   &::after{
     content:" ";
     display:block;
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
     bottom:0;
@@ -64,7 +73,7 @@ body {
   &::before{
     content:" ";
     display:block;
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
     bottom:0;
