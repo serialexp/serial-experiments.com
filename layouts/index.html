@@ -10,15 +10,15 @@
         <!-- Note that the content for index.html, as a sort of list page, will pull from content/_index.md -->
         {{.Content}}
       </div>
-      <h2>Recent posts</h2>
-      <ul>
-        <!-- Note that .Pages is the same as .Site.RegularPages on the homepage template. -->
-        {{ range first 10 .Pages }}
-            <li>
-                <time>{{ .Date.Format "Jan 2, 2006" }}</time>:
-                <strong><a href="{{ .Permalink }}">{{ .Title }}</a></strong>
-            </li>
+
+        <h2>Recent Content</h2>
+        {{ range first 10 .Site.RegularPages }}
+        <div>
+            <a href="{{ .Permalink }}"><time>{{ .Date.Format "Jan 2, 2006" }}</time>:
+            <strong>{{ .Title }}</strong></a>
+        </div>
         {{ end }}
-      </ul>
+        <br />
+
     </main>
 {{ end }}

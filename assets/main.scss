@@ -4,6 +4,7 @@ $background: #221d1d;
 body, html {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 * {
@@ -58,7 +59,6 @@ body {
     opacity:0;
     z-index:2;
     pointer-events:none;
-    animation:flicker 0.04s infinite;
   }
   // scanlines
   &::before{
@@ -71,7 +71,7 @@ body {
     right:0;
     background:linear-gradient(transparentize($background,1) 50%, transparentize(darken($background,10),0.75) 50%), linear-gradient(90deg,transparentize(#ff0000,0.94),transparentize(#00ff00,0.98),transparentize(#0000ff,0.94));
     z-index:2;
-    background-size:100% 2px, 3px 100%;
+    background-size:100% 2px, 1px 100%;
     pointer-events:none;
   }
 }
