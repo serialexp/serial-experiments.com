@@ -1,0 +1,24 @@
+{{ define "main" }}
+    <main aria-role="main">
+      <header class="homepage-header">
+        <h1>{{.Title}}</h1>
+        {{ with .Params.subtitle }}
+        <span class="subtitle">{{.}}</span>
+        {{ end }}
+      </header>
+      <div class="homepage-content">
+        <!-- Note that the content for index.html, as a sort of list page, will pull from content/_index.md -->
+        {{.Content}}
+      </div>
+      <h2>Recent posts</h2>
+      <ul>
+        <!-- Note that .Pages is the same as .Site.RegularPages on the homepage template. -->
+        {{ range first 10 .Pages }}
+            <li>
+                <time>{{ .Date.Format "Jan 2, 2006" }}</time>:
+                <strong><a href="{{ .Permalink }}">{{ .Title }}</a></strong>
+            </li>
+        {{ end }}
+      </ul>
+    </main>
+{{ end }}
