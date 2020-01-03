@@ -1,0 +1,10 @@
+version: "3"
+services:
+  app:
+    image: registry.serial-experiments.com/bart/serial-experiments.com:latest
+    restart: always
+    environment:
+      NODE_ENV: production
+    labels:
+      traefik.frontend.rule: 'Host:serial-experiments.com'
+      traefik.port: 80

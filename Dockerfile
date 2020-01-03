@@ -1,7 +1,5 @@
-FROM richarvey/nginx-php-fpm:latest
+FROM nginx:latest
 
 MAINTAINER Bart Riepe <bart@serial-experiments.com>
 
-ENV WEBROOT="/var/www/html"
-
-COPY ./ /var/www/html/
+COPY public/* /usr/share/nginx/html

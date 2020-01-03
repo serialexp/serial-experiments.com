@@ -1,23 +1,54 @@
-build:
-  image: docker:stable
-  stage: build
-  script:
-  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN git.serial-experiments.com:4567
-  - docker build -t git.serial-experiments.com:4567/bart/serial-experiments.com .
-  - docker push git.serial-experiments.com:4567/bart/serial-experiments.com
-  # When using dind, it's wise to use the overlayfs driver for
-  # improved performance.
-  variables:
-    DOCKER_DRIVER: overlay2
-  services:
-  - docker:dind
-  before_script:
-  - docker info
+image: docker:stable
 
+# When using dind, it's wise to use the overlayfs driver for
+# improved performance.
+variables:
+  DOCKER_DRIVER: overlay2
+# DOCKER_HOST: tcp://localhost:2375
+
+services:
+  - docker:dind
+
+stages:
+  - generate
+  - build
+  - deploy
+
+generate:
+  image: klakegg/hugo:latest-ext
+  stage: generate
+  only:
+    - master
+  script:
+    - hugo
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+
+build:
+  stage: build
+  only:
+    - master
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.serial-experiments.com
+    - docker build -t registry.serial-experiments.com/${CI_PROJECT_PATH}:latest .
+    - docker push registry.serial-experiments.com/${CI_PROJECT_PATH}:latest
+
+build_tagged:
+  stage: build
+  only:
+    - tags
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.serial-experiments.com
+    - docker build -t registry.serial-experiments.com/$CI_PROJECT_PATH:$CI_COMMIT_TAG .
+    - docker push registry.serial-experiments.com/$CI_PROJECT_PATH:$CI_COMMIT_TAG
 
 deploy:
-  image: git.serial-experiments.com:4567/registry/nomad
+  image: registry.serial-experiments.com/bart/exoframe:latest
   stage: deploy
+  only:
+    - master
   script:
-    - export NOMAD_ADDR="https://nomad.serial-experiments.com/"
-    - nomad run deploy.nomad
+    - exoframe endpoint https://exoframe.serial-experiments.com
+    - exoframe deploy -t eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbiI6dHJ1ZSwidXNlciI6eyJ1c2VybmFtZSI6ImFlb2x1biJ9LCJ0b2tlbk5hbWUiOiJnaXRsYWIiLCJkZXBsb3kiOnRydWUsImlhdCI6MTU1NjYyOTc0NX0.V48qwiw1vLPiKcHEE2mMOjGw_lgdloKIQZQHzfKBNSI
