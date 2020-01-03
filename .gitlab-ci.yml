@@ -16,7 +16,7 @@ stages:
 
 generate:
   image:
-    name: registry.gitlab.com/pages/hugo_extended:latest
+    name: registry.gitlab.com/pages/hugo/hugo_extended:latest
   stage: generate
   only:
     - master
