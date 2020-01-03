@@ -24,9 +24,9 @@ generate:
     - export VERSION=0.62.1
     - apk add --no-cache git openssl py-pygments curl
     - curl -L https://github.com/gohugoio/hugo/releases/download/v${VERSION}/hugo_extended_${VERSION}_Linux-64bit.tar.gz | tar -xz
-    - mv hugo /usr/bin/hugo
+    - mv hugo /usr/local/bin/hugo
     - apk del curl
-    - hugo
+    - /usr/local/bin/hugo
   artifacts:
     paths:
       - public
