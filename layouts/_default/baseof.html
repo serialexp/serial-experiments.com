@@ -4,10 +4,7 @@
     <meta charset="utf-8">
     {{ $style := resources.Get "main.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $style.Permalink }}">
-    <title>{{ block "title" . }}
-      <!-- Blocks may include default content. -->
-      {{ .Site.Title }}
-    {{ end }}</title>
+    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
   </head>
   <body>
     <!-- Code that all your templates share, like a header -->

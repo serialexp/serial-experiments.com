@@ -2,8 +2,8 @@
 title: Thoughts on the purpose of live, and where we are going
 tags: 
 - blog
-date: 2020-07-28
-publishDate: 2020-07-28
+date: 2020-07-27
+publishDate: 2020-07-27
 ---
 
 For some reason, I have recently begun to question the point of it all (again). Potentially due to the coronavirus that has kept me at home for the past few months, my mood has become fairly depressed, and that has led me to question the meaning of existence.
