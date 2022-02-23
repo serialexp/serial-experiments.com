@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="97mm"
+   height="61mm"
+   viewBox="0 0 343.70078 216.14173"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="serial-experiments-business-card.svg"
+   inkscape:export-filename="D:\Google Drive\serial-experiments-meishi.png"
+   inkscape:export-xdpi="600.10986"
+   inkscape:export-ydpi="600.10986">
+  <defs
+     id="defs4">
+    <symbol
+       id="icon-at"
+       viewBox="0 0 1024 1024">
+      <title
+         id="title9454">at</title>
+      <path
+         d="M 955.008,768 C 998.88,692.64 1024,605.504 1024,512 1024,229.248 794.752,0 512,0 229.248,0 0,229.248 0,512 c 0,282.752 229.248,512 512,512 141.376,0 269.376,-57.248 361.984,-150.016 L 783.36,783.36 C 713.888,852.992 617.888,896 512,896 300.256,896 128,723.744 128,512 128,300.256 300.256,128 512,128 c 211.744,0 384,172.256 384,384 0,45.504 -8.736,88.992 -23.36,129.504 L 871.616,640 768,640 l 0,-382.624 -256,0 c -141.376,0 -256,114.624 -256,256 0,141.376 114.624,256 256,256 58.752,0 112.256,-20.64 155.488,-53.888 C 690.752,746.496 726.24,768 768,768 l 187.008,0 z M 640,448.256 l 0,65.12 c 0,70.624 -57.504,128 -128,128 -70.496,0 -128,-57.376 -128,-128 0,-70.624 57.504,-128 128,-128 l 128,0 0,62.88 z"
+         id="path9456"
+         inkscape:connector-curvature="0" />
+    </symbol>
+    <symbol
+       id="heart">
+      <title
+         id="title8395">heart</title>
+      <path
+         d="M 11.559,9.6 10,11.158 C 8.044,10.3 6.413,8.836 5.349,7 L 6.827,5.522 C 6.301,4.459 6,3.266 6,2 L 2,2 c 0,6.627 5.373,12 12,12 l 0,-4 C 13.146,10 12.329,9.85 11.559,9.6 Z"
+         id="path8397"
+         inkscape:connector-curvature="0" />
+    </symbol>
+    <symbol
+       id="maximize">
+      <title
+         id="title8488">maximize</title>
+      <path
+         d="M 2,4 2,5 8,8 14,5 14,4 2,4 Z m 0,2.5 0,5.5 12,0 0,-5.5 -6,3 -6,-3 z"
+         id="path8490"
+         inkscape:connector-curvature="0" />
+    </symbol>
+    <symbol
+       id="website">
+      <title
+         id="title8863">website</title>
+      <path
+         d="M 8,2 C 4.687,2 2,4.687 2,8 c 0,3.313 2.687,6 6,6 3.313,0 6,-2.687 6,-6 C 14,4.687 11.313,2 8,2 Z M 3.72,5.527 4.003,5.608 3.767,5.629 3.63,5.678 3.595,5.686 C 3.629,5.622 3.662,5.558 3.698,5.496 L 3.72,5.527 Z M 8,13 C 7.845,13 7.699,12.968 7.547,12.954 L 7.807,12.747 7.822,12.618 7.688,12.435 7.97,12.475 8.282,11.765 8.674,11.524 8.89,10.992 9.068,10.481 9.058,10.033 8.813,9.879 8.438,9.848 8.068,9.769 8.133,9.639 7.872,9.713 7.936,9.332 7.871,9.289 7.598,9.138 7.219,8.875 6.69,8.706 6.536,8.652 6.422,8.841 6.441,8.632 6.133,8.77 5.665,8.878 5.56,8.927 5.716,9 5.833,8.915 5.898,8.952 5.839,9.434 5.729,9.848 5.669,9.977 5.752,10.195 6,10.635 6.526,11.149 6.613,11.64 6.688,12.715 6.72,12.814 C 4.585,12.244 3,10.312 3,8 3,7.502 3.095,7.031 3.231,6.577 L 3.44,6.939 3.442,7.22 3.482,7.399 3.56,7.496 3.599,7.626 3.663,7.706 3.668,7.572 3.61,7.056 3.651,7.183 3.824,7.552 4.214,8.17 4.554,8.312 4.861,8.386 5.177,8.182 5.293,7.842 4.846,8.082 4.614,7.829 4.665,7.489 5.05,7.179 5.35,7.181 5.711,7.18 5.896,7.551 5.959,7.35 6.161,6.886 6.417,6.677 6.493,6.494 6.693,6.336 6.966,6.185 7.077,6.056 7.321,5.94 7.524,5.896 7.398,6.043 7.757,5.897 7.669,5.841 7.563,5.721 7.604,5.587 7.27,5.679 7.698,5.511 8.282,5.362 8.122,5.205 8.042,4.774 7.816,4.854 7.745,4.71 7.487,4.579 7.229,4.756 7.077,5.052 6.814,5.321 6.6,5.102 6.3,4.961 6.193,4.844 6.624,4.514 6.906,4.351 7.49,4.158 7.118,4.192 7.032,4.014 6.812,3.991 6.768,4.132 6.534,4.189 6.162,4.142 5.89,4.203 5.64,4.139 5.267,4.043 4.968,4.052 C 5.812,3.402 6.855,3 8,3 8.563,3 9.096,3.114 9.602,3.287 L 9.369,3.3 8.829,3.432 8.578,3.492 8.751,3.626 9.11,3.778 9.207,3.948 9.075,4.203 9.124,4.669 9.592,4.443 10.196,4.175 10.664,4.094 10.726,4.024 10.56,4.004 10.596,3.931 10.853,3.972 10.694,3.833 10.728,3.819 c 0.602,0.394 1.106,0.914 1.49,1.521 l -0.113,0.091 -0.316,0.172 -0.161,0.065 0.188,0.208 -0.067,0.171 -0.363,-0.021 -0.104,0.197 -0.021,0.317 0.184,0.072 0.396,-0.091 0.203,-0.274 0.186,-0.166 0.226,-0.021 0.105,-0.052 0.043,0.04 c 0.12,0.284 0.212,0.583 0.278,0.891 L 12.693,6.857 12.49,6.569 11.971,6.625 11.755,6.7 11.46,6.697 11.172,6.97 11.07,7.17 10.924,7.332 10.82,7.434 10.642,7.708 10.604,7.85 10.56,7.909 l -0.007,0.424 0.006,0.254 0.305,0.418 0.312,0.227 0.412,-0.024 0.436,-0.165 0.184,0.155 0.198,0.059 0.271,0.197 -0.117,0.397 0.051,0.082 C 11.852,11.733 10.071,13 8,13 Z"
+         id="path8865"
+         inkscape:connector-curvature="0" />
+    </symbol>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="137.18528"
+     inkscape:cy="104.20364"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-path-clip="true"
+     inkscape:snap-perpendicular="true"
+     inkscape:snap-tangential="true"
+     inkscape:snap-path-mask="true"
+     inkscape:snap-bbox="true"
+     inkscape:snap-object-midpoints="false"
+     inkscape:bbox-paths="false"
+     objecttolerance="10000"
+     guidetolerance="10000"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-others="false"
+     inkscape:bbox-nodes="true"
+     borderlayer="true"
+     inkscape:showpageshadow="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4169"
+       units="mm"
+       spacingx="3.543307"
+       spacingy="3.543307" />
+    <sodipodi:guide
+       position="10.629921,60.236219"
+       orientation="1,0"
+       id="guide4755" />
+    <sodipodi:guide
+       position="102.75591,205.51181"
+       orientation="0,1"
+       id="guide4757" />
+    <sodipodi:guide
+       position="233.85826,10.629921"
+       orientation="0,1"
+       id="guide4759" />
+    <sodipodi:guide
+       position="322.44095,148.81889"
+       orientation="1,0"
+       id="guide4761" />
+    <sodipodi:guide
+       position="56.692914,21.259842"
+       orientation="0,1"
+       id="guide13343" />
+    <sodipodi:guide
+       position="0,173.62204"
+       orientation="1,0"
+       id="guide13347" />
+    <sodipodi:guide
+       position="106.29922,194.88189"
+       orientation="0,1"
+       id="guide13349" />
+    <sodipodi:guide
+       position="74.409447,0"
+       orientation="0,1"
+       id="guide13351" />
+    <sodipodi:guide
+       position="333.07087,177.16535"
+       orientation="1,0"
+       id="guide13353" />
+    <sodipodi:guide
+       position="21.259843,159.44881"
+       orientation="1,0"
+       id="guide11767" />
+    <sodipodi:guide
+       position="212.59842,46.062991"
+       orientation="0,1"
+       id="guide11769" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Background"
+     transform="translate(0,21.259843)">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.1098266"
+       id="rect13345"
+       width="343.70078"
+       height="216.14174"
+       x="2.2997938e-006"
+       y="-21.259855" />
+    <path
+       style="opacity:1;fill:#000000;fill-opacity:0.08387098;stroke:none;stroke-width:3;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.1098266"
+       d="m 232.88281,-21.259855 -107.54492,216.141735 18.60352,0 107.54492,-216.141735 -18.60352,0 z m 37.20703,0 -107.54296,216.141735 18.60156,0 107.54687,-216.141735 -18.60547,0 z"
+       id="rect4191"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     inkscape:label="Foreground"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-836.22048)">
+    <g
+       id="g4171"
+       inkscape:export-xdpi="299.9946"
+       inkscape:export-ydpi="299.9946"
+       style="fill:#60b0f4;fill-opacity:1"
+       transform="matrix(0.48327243,0,0,0.48327243,-22.035515,665.62493)">
+      <path
+         style="opacity:1;fill:#60b0f4;fill-opacity:1;stroke:none;stroke-width:3;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.1098266"
+         d="m 158.57227,396.99219 -30.26563,17.47461 39.56836,46.39453 59.67969,-10.24024 0,-13.80078 -68.98242,-39.82812 z m -44.69922,25.80859 -24.285159,14.01953 0,37.47461 59.496089,-10.20898 -35.21093,-41.28516 z m 113.68164,44.44922 -47.30664,8.11719 39.09961,45.8457 8.20703,-4.73828 0,-49.22461 z m -66.09961,11.34375 -71.867189,12.33203 0,25.54883 68.984379,39.82812 46.33984,-26.75585 -43.45703,-50.95313 z"
+         id="path4136"
+         inkscape:export-xdpi="299.9946"
+         inkscape:export-ydpi="299.9946"
+         inkscape:connector-curvature="0" />
+      <flowRoot
+         inkscape:export-ydpi="299.9946"
+         inkscape:export-xdpi="299.9946"
+         transform="translate(-0.29616357,6.1186673)"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:60px;line-height:125%;font-family:Corbel;-inkscape-font-specification:Corbel;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="flowRoot4155"
+         xml:space="preserve"><flowRegion
+           id="flowRegion4157"><rect
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:60px;font-family:Corbel;-inkscape-font-specification:Corbel;fill:#000000;fill-opacity:1"
+             y="433.07648"
+             x="250"
+             height="90.882027"
+             width="572.16534"
+             id="rect4159" /></flowRegion><flowPara
+           id="flowPara4161"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:51.52362061px;font-family:Convergence;-inkscape-font-specification:Convergence">Serial Experiments</flowPara></flowRoot>      <text
+         inkscape:export-ydpi="299.9946"
+         inkscape:export-xdpi="299.9946"
+         sodipodi:linespacing="125%"
+         id="text4163"
+         y="510.36218"
+         x="250.71429"
+         style="font-style:normal;font-weight:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="510.36218"
+           x="250.71429"
+           id="tspan4165"
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Convergence;-inkscape-font-specification:Convergence">We are all connected</tspan></text>
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4763"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(-100.36771,861.27446)"><flowRegion
+         id="flowRegion4765"><rect
+           id="rect4767"
+           width="171.69054"
+           height="43.812157"
+           x="141.73228"
+           y="106.29922"
+           style="font-size:20px;text-align:end;text-anchor:end" /></flowRegion><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:135.00000238%;font-family:'Baskerville Old Face';-inkscape-font-specification:'Baskerville Old Face';text-align:start;text-anchor:start"
+         id="flowPara4160">070 2171 3561</flowPara><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:135.00000238%;font-family:'Baskerville Old Face';-inkscape-font-specification:'Baskerville Old Face';text-align:start;text-anchor:start"
+         id="flowPara4162">bart@serial-experiments.com</flowPara><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:130.99999428%;font-family:'Baskerville Old Face';-inkscape-font-specification:'Baskerville Old Face';text-align:start;text-anchor:start"
+         id="flowPara13341">http://www.serial-experiments.com</flowPara><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:130.99999428%;font-family:David;-inkscape-font-specification:David;text-align:start;text-anchor:start"
+         id="flowPara4166" /><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:130.99999428%;font-family:David;-inkscape-font-specification:David;text-align:start;text-anchor:start"
+         id="flowPara4164" /><flowPara
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:130.99999428%;font-family:David;-inkscape-font-specification:David;text-align:start;text-anchor:start"
+         id="flowPara4779" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="323.2124"
+       y="1002.4939"
+       id="text4174"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4176"
+         x="323.2124"
+         y="1002.4939"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;font-family:'Baskerville Old Face';-inkscape-font-specification:'Baskerville Old Face'">Bart Riepe</tspan><tspan
+         sodipodi:role="line"
+         x="323.2124"
+         y="1027.4939"
+         id="tspan4178"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;font-family:'Baskerville Old Face';-inkscape-font-specification:'Baskerville Old Face'" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="255.94681"
+       y="984.79846"
+       id="text4180"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4182"
+         x="255.94681"
+         y="984.79846"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Baskerville Old Face';-inkscape-font-specification:'Baskerville Old Face'">Founder &amp; CEO</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="20.849688"
+       y="1030.077"
+       id="text4184"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4186"
+         x="20.849688"
+         y="1030.077"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.5px;font-family:'MS PMincho';-inkscape-font-specification:'MS PMincho'">Shimotakaido 4-35-26 メゾンスギＢ201, Suginami-ku, Tokyo-to, 168-0073</tspan></text>
+    <use
+       id="use13277"
+       style="fill:#000000;stroke:none"
+       xlink:href="#heart"
+       transform="translate(22.80315,965.85855)"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use13302"
+       style="fill:#000000;stroke:none"
+       xlink:href="#maximize"
+       transform="translate(22.80315,980.5343)"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+    <use
+       id="use13327"
+       style="fill:#000000;stroke:none"
+       xlink:href="#website"
+       transform="translate(22.80315,993.66928)"
+       x="0"
+       y="0"
+       width="100%"
+       height="100%" />
+  </g>
+</svg>

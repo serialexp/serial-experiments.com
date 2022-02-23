@@ -1,0 +1,18 @@
+{
+  "name": "serial-experiments.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://aeolun@onedev.jp.serial-experiments.com:6611/bart/serial-experiments.com"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serve": "^13.0.2"
+  }
+}
