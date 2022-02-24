@@ -1,9 +1,16 @@
 :root {
-  --main-color: #60B0F4;
+  --blue-color: #60B0F4;
+  --darkblue-color: #5b779a;
+  --pink-color:#e3cb9f;
+  --purple-color: #dbae37;
+  --yellow-color: #de9022;
 }
 
 body {
-  background: #00807F;
+  background-color: #e5e5f7;
+  opacity: 1;
+  background-size: 10px 10px;
+  background-image: repeating-linear-gradient(45deg, #5b779a 0, #5b779a 1px, #e5e5f7 0, #e5e5f7 50%);
   font-family: "Source Code Pro", sans-serif;
 }
 
@@ -12,10 +19,14 @@ div.center {
   margin-top: 4em;
   text-align: center;
   background-color: #eee;
-  border: 1px groove #333;
+  opacity: 1;
+  border: 2px ridge var(--darkblue-color);
   padding: 16px;
-  width: 50%;
-  max-width: 400px;
+  max-width: 24em;
+}
+
+.wordmark {
+  font-size: 2em;
 }
 
 .logo {
@@ -23,9 +34,10 @@ div.center {
 }
 
 .logo path {
-  fill: var(--main-color);
+  fill: var(--blue-color);
 }
 
 .logo svg {
   filter: drop-shadow(3px 3px 4px rgb(0 0 0 / 0.4));
 }
+
