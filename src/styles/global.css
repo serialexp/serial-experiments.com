@@ -1,0 +1,490 @@
+/*
+ * Global styles — minimal first cut.
+ *
+ * Inherits the spirit of the original CRT/terminal theme in
+ * `old/assets/main.scss` (monospace, dark bg, scanline overlay, subtle
+ * chromatic aberration), repaletted to the new black/dark-blue logo.
+ *
+ * Visual polish iterates in a later step: vanilla-extract theme tokens,
+ * proper typography scale, and a tuned-down flicker gated on
+ * `prefers-reduced-motion`.
+ */
+
+:root {
+  --bg: #0a0e1a;          /* near-black, navy-lifted */
+  --bg-raised: #11172a;
+  --fg: #d6deeb;          /* muted slate */
+  --fg-dim: #8b95a8;
+  --accent: #60b0f4;      /* logo blue */
+  --accent-dim: #5b779a;
+  --border: #2a3550;
+  --scanline: rgba(91, 119, 154, 0.18);
+  --aberration-r: rgba(255, 0, 0, 0.06);
+  --aberration-g: rgba(0, 255, 0, 0.02);
+  --aberration-b: rgba(0, 0, 255, 0.06);
+
+  --col-width: 64ch;
+  --pad: 1.25rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent-dim);
+}
+a:hover {
+  border-bottom-style: solid;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 1.5em 0 0.5em;
+  color: var(--fg);
+}
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.2rem; color: var(--accent); }
+h3 { font-size: 1rem; }
+
+p {
+  margin: 0.5em 0 1em;
+}
+
+code, pre {
+  font-family: inherit;
+}
+
+/* CRT overlay — fixed, pointer-events:none. Scanlines + RGB stripes. */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background:
+    linear-gradient(transparent 50%, var(--scanline) 50%) 0 0 / 100% 2px,
+    linear-gradient(90deg, var(--aberration-r), var(--aberration-g), var(--aberration-b)) 0 0 / 1px 100%;
+}
+
+/* Page shell */
+.page {
+  max-width: var(--col-width);
+  margin: 0 auto;
+  padding: 2rem var(--pad) 4rem;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.brand {
+  border-bottom: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  color: var(--fg);
+}
+.brand-mark {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: -2px;
+}
+.brand-name {
+  font-weight: 600;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+.site-nav a {
+  border-bottom: none;
+}
+.site-nav a:hover {
+  color: var(--fg);
+}
+.site-nav .admin-link {
+  color: var(--accent-dim);
+  font-style: italic;
+}
+
+main {
+  min-height: 50vh;
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--fg-dim);
+}
+
+/* Home */
+.home .hero {
+  margin: 2rem 0 3rem;
+}
+.home .hero h1 {
+  font-size: 2.2rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.home .hero .lede {
+  color: var(--fg-dim);
+  font-size: 1rem;
+}
+
+.home .empty,
+.posts-list .empty,
+.featured .empty {
+  color: var(--fg-dim);
+  font-style: italic;
+}
+
+.home .more,
+.posts-list .more {
+  margin-top: 0.5em;
+  font-size: 0.9rem;
+}
+
+/* Post list (shared between /posts and Home) */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5em 0 1.5em;
+}
+.post-list li {
+  padding: 0.25em 0;
+  display: block;
+}
+.post-list time {
+  color: var(--fg-dim);
+}
+.post-list .subtitle {
+  color: var(--fg-dim);
+}
+
+/* Single post */
+.post header {
+  margin-bottom: 2rem;
+}
+.post header h1 {
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-bottom: 0.25em;
+}
+.post header .subtitle {
+  color: var(--fg-dim);
+  margin: 0 0 0.5em;
+}
+.post header .meta {
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+}
+.post header .meta .tag {
+  border-bottom: none;
+  color: var(--accent-dim);
+}
+.post header .meta .tag:hover {
+  color: var(--accent);
+}
+.post-body {
+  line-height: 1.7;
+}
+.post-body img {
+  max-width: 100%;
+  height: auto;
+}
+.post-body pre {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  padding: 0.75em 1em;
+  overflow-x: auto;
+  border-radius: 2px;
+}
+.post-body code {
+  background: var(--bg-raised);
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+  font-size: 0.92em;
+}
+.post-body pre code {
+  background: transparent;
+  padding: 0;
+}
+.post-body blockquote {
+  border-left: 2px solid var(--accent-dim);
+  padding-left: 1em;
+  margin-left: 0;
+  color: var(--fg-dim);
+}
+.post-body table {
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+.post-body th, .post-body td {
+  border: 1px solid var(--border);
+  padding: 0.4em 0.6em;
+}
+
+.loading {
+  color: var(--fg-dim);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Login */
+.login {
+  max-width: 32ch;
+}
+.login form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.login label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.login label > span {
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+}
+.login input {
+  font: inherit;
+  padding: 0.5em 0.6em;
+  background: var(--bg-raised);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.login input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.login button {
+  font: inherit;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: 600;
+  align-self: flex-start;
+}
+.login button:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+.login .error {
+  color: #ff7f7f;
+  margin: 0;
+}
+.login .hint {
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Admin */
+.admin .admin-menu {
+  list-style: none;
+  padding: 0;
+}
+.admin .admin-menu li {
+  padding: 0.4em 0;
+}
+.admin .admin-menu .todo {
+  color: var(--fg-dim);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.admin button,
+.admin .cta {
+  font: inherit;
+  background: transparent;
+  color: var(--fg-dim);
+  border: 1px solid var(--border);
+  padding: 0.4em 0.9em;
+  cursor: pointer;
+  border-radius: 2px;
+  text-decoration: none;
+}
+.admin button:hover,
+.admin .cta:hover {
+  border-color: var(--accent-dim);
+  color: var(--fg);
+}
+.admin .cta {
+  border-color: var(--accent-dim);
+  color: var(--accent);
+}
+
+.admin .admin-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.5em;
+}
+.admin .admin-bar h1 {
+  margin: 0;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+}
+.admin-table th,
+.admin-table td {
+  text-align: left;
+  padding: 0.5em 0.5em;
+  border-bottom: 1px solid var(--border);
+}
+.admin-table th {
+  color: var(--fg-dim);
+  font-weight: 500;
+  text-transform: lowercase;
+}
+.admin-table .draft {
+  color: var(--accent-dim);
+  font-style: italic;
+}
+.admin-table .row-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+.admin-table .link-btn {
+  background: none;
+  border: none;
+  color: var(--accent-dim);
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+.admin-table .link-btn:hover {
+  color: var(--accent);
+}
+
+.admin-edit form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+  margin-top: 1.5rem;
+}
+.admin-edit label,
+.admin-edit fieldset > label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.admin-edit label > span,
+.admin-edit fieldset legend {
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+}
+.admin-edit em {
+  color: var(--fg-dim);
+  font-style: italic;
+}
+.admin-edit input[type="text"],
+.admin-edit input[type="password"],
+.admin-edit textarea {
+  font: inherit;
+  padding: 0.5em 0.6em;
+  background: var(--bg-raised);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  width: 100%;
+  resize: vertical;
+}
+.admin-edit textarea {
+  font-family: inherit;
+  line-height: 1.55;
+}
+.admin-edit input:focus,
+.admin-edit textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.admin-edit fieldset {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.5em 1em 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.admin-edit label.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+.admin-edit .actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.admin-edit .actions .cancel {
+  color: var(--fg-dim);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--fg-dim);
+}
+.admin-edit .error,
+.admin .error {
+  color: #ff7f7f;
+  margin: 0;
+}
+.admin .back {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+/* 404 */
+.not-found {
+  text-align: center;
+  padding: 4rem 0;
+}
+.not-found h1 {
+  font-size: 6rem;
+  color: var(--accent);
+  margin: 0;
+  letter-spacing: 0.2em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Future home of a tuned-down CRT flicker. The original was ~20-step
+   * random-opacity keyframes which is migraine-inducing. Leave off until
+   * we ship a calmer version. */
+}

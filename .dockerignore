@@ -1,4 +1,0 @@
-.gitlab-ci.yml
-deploy.nomad
-Dockerfile
-.gitignore

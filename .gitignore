@@ -1,2 +1,27 @@
-.idea
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-*/
+
+# Runtime data (SQLite db + uploads). Mounted as a volume in production.
+data/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Vite / Bun caches
+.vite/
+.bun-cache/
+
+# Old Hugo gen artifacts (kept for reference)
 old/resources/_gen
