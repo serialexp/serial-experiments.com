@@ -47,8 +47,24 @@ export default defineConfig(({ isSsrBuild }) => ({
   },
   server: {
     port: 5173,
-    // Local dev: when you `vite dev`, the SSR server (server.ts on :3001)
-    // proxies SSR requests through Vite's middleware via vite-node. The dev
-    // story is added in a follow-up; for now `vite dev` serves a CSR shell.
+    // Bind to all interfaces so the dev server is reachable from outside
+    // localhost (e.g. through a Caddy / Traefik proxy on the home network).
+    host: true,
+    // Vite 6 rejects requests whose Host header isn't in this allow-list as
+    // a DNS-rebinding mitigation. Local dev hostnames need explicit listing.
+    // Add more entries here when previewing through a different tunnel.
+    allowedHosts: [
+      "localhost",
+      "home.serial-experiments.com",
+      ".serial-experiments.com",
+    ],
+    // The Vite dev server only renders the client bundle; the JSON API
+    // (/api/*) still has to come from the real Bun server. Proxy
+    // everything stateful through to it so dev preview behaves like prod.
+    proxy: {
+      "/api": "http://localhost:3001",
+      "/uploads": "http://localhost:3001",
+      "/feed.xml": "http://localhost:3001",
+    },
   },
 }));
