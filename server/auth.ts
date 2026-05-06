@@ -108,37 +108,103 @@ export function checkCsrf(req: Request, user: User): boolean {
 }
 
 /**
- * On startup, if the users table is empty and the seed env vars are set,
- * create the admin user. The hash MUST be pre-computed (we never accept
- * a plaintext password from the environment).
+ * On startup, ensure the admin user exists and (optionally) reset its
+ * password from the environment. Two env shapes are accepted:
  *
  *   ADMIN_USERNAME=bart
+ *   ADMIN_PASSWORD='plaintext'                 # ergonomic; we hash it here
+ *     — or —
  *   ADMIN_PASSWORD_HASH='<output of `bun --eval "console.log(await Bun.password.hash(\"...\"))"`>'
+ *
+ * If both are set, `ADMIN_PASSWORD` wins. Behavior:
+ *
+ *   - Username row missing: insert with the provided password.
+ *   - Username row exists, `ADMIN_PASSWORD` set: verify the env plaintext
+ *     against the stored hash; if it doesn't match, re-hash and UPDATE.
+ *     This is how you recover from a forgotten password — set a new
+ *     `ADMIN_PASSWORD`, restart, log in.
+ *   - Username row exists, only `ADMIN_PASSWORD_HASH` set: no-op (argon2
+ *     hashes are non-deterministic; we can't tell intent from the hash
+ *     alone, and silently overwriting would surprise hash-rotation
+ *     workflows).
+ *
+ * If the table is empty and no admin env is set, log a warning so the
+ * deployer notices admin login is disabled.
  */
-export function seedAdminFromEnv(): void {
-  const existing = getOne<{ n: number }>(`SELECT COUNT(*) AS n FROM users`)!;
-  if (existing.n > 0) return;
+export async function seedAdminFromEnv(): Promise<void> {
   const username = process.env.ADMIN_USERNAME;
-  const hash = process.env.ADMIN_PASSWORD_HASH;
-  if (!username || !hash) {
-    console.warn(
-      "[auth] no users in DB and ADMIN_USERNAME/ADMIN_PASSWORD_HASH not set — admin login disabled",
-    );
+  const plaintext = process.env.ADMIN_PASSWORD;
+  const presetHash = process.env.ADMIN_PASSWORD_HASH;
+
+  const userCount = getOne<{ n: number }>(`SELECT COUNT(*) AS n FROM users`)!.n;
+
+  if (!username) {
+    if (userCount === 0) {
+      console.warn(
+        "[auth] no users in DB and ADMIN_USERNAME not set — admin login disabled",
+      );
+    }
     return;
   }
-  const csrf = randomBytes(32).toString("hex");
-  run(
-    `INSERT INTO users (username, password_hash, csrf_token) VALUES (?, ?, ?)`,
+  if (!plaintext && !presetHash) {
+    if (userCount === 0) {
+      console.warn(
+        `[auth] ADMIN_USERNAME=${username} but neither ADMIN_PASSWORD nor ADMIN_PASSWORD_HASH set — admin login disabled`,
+      );
+    }
+    return;
+  }
+
+  const existing = getOne<UserRow>(
+    `SELECT id, username, password_hash, csrf_token FROM users WHERE username = ?`,
     username,
-    hash,
-    csrf,
   );
-  console.log(`[auth] seeded admin user '${username}'`);
+
+  if (!existing) {
+    const hash = plaintext ? await Bun.password.hash(plaintext) : presetHash!;
+    const csrf = randomBytes(32).toString("hex");
+    run(
+      `INSERT INTO users (username, password_hash, csrf_token) VALUES (?, ?, ?)`,
+      username,
+      hash,
+      csrf,
+    );
+    console.log(`[auth] seeded admin user '${username}'`);
+    return;
+  }
+
+  // User exists. Update the password only if ADMIN_PASSWORD was supplied
+  // and doesn't match the stored hash (cheap recovery path).
+  if (plaintext) {
+    const stillMatches = await Bun.password.verify(plaintext, existing.password_hash);
+    if (!stillMatches) {
+      const newHash = await Bun.password.hash(plaintext);
+      run(`UPDATE users SET password_hash = ? WHERE id = ?`, newHash, existing.id);
+      console.log(`[auth] reset password for '${username}' from ADMIN_PASSWORD env`);
+    }
+  }
 }
 
-export function isProductionRequest(req: Request): boolean {
-  // Trust the proxy; in dev curl over http://localhost we don't want Secure
-  // flags that would prevent the cookie from being stored.
-  const proto = req.headers.get("x-forwarded-proto");
-  return proto === "https" || process.env.NODE_ENV === "production";
+/**
+ * Whether the inbound request reached us over HTTPS — used to decide the
+ * `Secure` flag on Set-Cookie. The flag MUST track the actual transport,
+ * not `NODE_ENV`: a `Secure` cookie on a plain-HTTP response is never
+ * sent back by the browser, so authenticating in production-but-HTTP
+ * (e.g. accessing the box directly via `http://host:3001` while bypassing
+ * the TLS-terminating proxy) silently fails to log in.
+ *
+ * Detection order:
+ *  1. `X-Forwarded-Proto: https` — set by Caddy / Traefik / nginx in front.
+ *  2. `req.url`'s scheme — Bun.serve gives us the actual connection scheme,
+ *     so a direct `https://…` connection without a proxy still works.
+ *  3. Otherwise: HTTP.
+ */
+export function isSecureRequest(req: Request): boolean {
+  const xfp = req.headers.get("x-forwarded-proto");
+  if (xfp) return xfp.split(",")[0].trim().toLowerCase() === "https";
+  try {
+    return new URL(req.url).protocol === "https:";
+  } catch {
+    return false;
+  }
 }

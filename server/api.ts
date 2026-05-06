@@ -5,7 +5,7 @@ import {
   clearSessionCookie,
   createSession,
   destroySession,
-  isProductionRequest,
+  isSecureRequest,
   makeSessionCookie,
   readSessionCookie,
   verifyCredentials,
@@ -68,7 +68,7 @@ export async function handleApi(req: Request, url: URL, user: User | null): Prom
       { user: { id: u.id, username: u.username }, csrf: u.csrf_token },
       {
         status: 200,
-        headers: { "set-cookie": makeSessionCookie(sid, isProductionRequest(req)) },
+        headers: { "set-cookie": makeSessionCookie(sid, isSecureRequest(req)) },
       },
     );
   }
@@ -79,7 +79,7 @@ export async function handleApi(req: Request, url: URL, user: User | null): Prom
     destroySession(sid);
     return Response.json(
       { ok: true },
-      { headers: { "set-cookie": clearSessionCookie(isProductionRequest(req)) } },
+      { headers: { "set-cookie": clearSessionCookie(isSecureRequest(req)) } },
     );
   }
 

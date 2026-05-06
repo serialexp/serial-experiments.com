@@ -36,8 +36,10 @@ const SERVER_DIR = join(ROOT, "dist/server");
 // Safe to run on every boot — `_migrations` table tracks what's applied.
 applyMigrations(join(ROOT, "migrations"));
 
-// Seed the admin user if the table is empty and the env vars are set.
-seedAdminFromEnv();
+// Seed (or password-reset) the admin user if the env vars are set.
+// Awaited at module top-level so the user row is in place before the
+// HTTP server starts accepting requests.
+await seedAdminFromEnv();
 
 // Lazily import the SSR bundle so dev iteration is fast(er) and so a
 // missing build produces a clean error message instead of a stack trace.
