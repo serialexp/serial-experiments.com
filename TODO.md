@@ -32,3 +32,9 @@ Small follow-ups noted while building, not worth interrupting flow for.
   hot-reloads the SSR module instead of requiring a `pnpm build`.
 - **Backup**: nightly `data/site.db` snapshot to a sibling `data/backups/`
   dir, retained N days.
+- **Lazy route splitting**: routes are eagerly imported in `src/routes.tsx`.
+  The earlier SPA-navigation breakage on `lazy()` was actually caused by
+  `vite-plugin-solid` (Babel) producing a silently-mismatched hydration
+  tree, which was fixed by switching to `@aeolun/vite-plugin-solid-oxc`.
+  `lazy()` was never re-tested after the plugin swap; likely re-enables
+  cleanly now. Single-bundle client is 85 kB, so not urgent.
