@@ -24,8 +24,8 @@
     "solid-js": "^1.9.11"
   },
   "devDependencies": {
-    "@aeolun/solid-jsx-oxc": "0.1.0-alpha.16",
-    "@aeolun/vite-plugin-solid-oxc": "0.1.0-alpha.16",
+    "@aeolun/solid-jsx-oxc": "0.1.0-alpha.21",
+    "@aeolun/vite-plugin-solid-oxc": "0.1.0-alpha.21",
     "@types/node": "^22.9.0",
     "bun-types": "^1.1.34",
     "sharp": "^0.34.5",
