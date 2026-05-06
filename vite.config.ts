@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import solid from "vite-plugin-solid";
+import solid from "@aeolun/vite-plugin-solid-oxc";
 import { resolve } from "node:path";
 
 /**
@@ -11,22 +11,29 @@ import { resolve } from "node:path";
  *  - SSR (`vite build --ssr src/entry-server.tsx`): server bundle into
  *    `dist/server`. Solid is compiled with `generate: "ssr"` and `hydratable`.
  *
- * Pattern lifted from gothab/frontend, simplified: one Solid plugin, one out
- * dir scheme, no debug-build harness.
+ * Pattern lifted from gothab/frontend. The Babel-based `vite-plugin-solid`
+ * silently produces hydration-mismatch trees on this app — `template()`
+ * gets called and re-renders client-side with no diagnostic, leaving the
+ * Router's location signal disconnected from `<A>` clicks. The OXC plugin
+ * doesn't have that bug; it also requires explicit `generate` + `hydratable`
+ * options per build target since it doesn't infer them from `isSsrBuild`.
  *
  * `noExternal` for `@solidjs/*`: ssr build must compile JSX-source variants
  * for the SSR target. Externalizing them resolves to the precompiled DOM
- * bundle which crashes on the server. vite-plugin-solid's vitefu-based
- * crawl picks these up automatically; we list them here as a safety net
- * in case auto-detection misses one.
+ * bundle which crashes on the server. The Babel plugin auto-detects these
+ * via vitefu's `crawlFrameworkPkgs`; the OXC plugin does not, so we list
+ * them here manually (gothab parity).
  */
 export default defineConfig(({ isSsrBuild }) => ({
   plugins: [
-    solid({
-      ssr: !!isSsrBuild,
-      // hydratable mode is implicit when ssr is true; vite-plugin-solid
-      // sets it correctly based on the build target.
-    }),
+    // `exclude: []` overrides the default `/node_modules/` so JSX files
+    // inside `@solidjs/router` (which ships uncompiled `.jsx` resolved via
+    // the `solid` export condition) get transformed for our target build.
+    solid(
+      isSsrBuild
+        ? { generate: "ssr", hydratable: true, solid_condition: true, exclude: [] }
+        : { generate: "dom", hydratable: true, solid_condition: true, exclude: [] },
+    ),
   ],
   resolve: {
     alias: {
