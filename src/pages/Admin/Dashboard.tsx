@@ -17,8 +17,8 @@ export default function AdminDashboard() {
 
       <ul class="admin-menu">
         <li><A href="/admin/posts">posts</A></li>
-        <li><A href="/admin/projects">projects</A> <span class="todo">— v1.1</span></li>
-        <li><A href="/admin/uploads">uploads</A> <span class="todo">— v1.1</span></li>
+        <li><A href="/admin/projects">projects</A></li>
+        <li><A href="/admin/uploads">uploads</A></li>
       </ul>
 
       <form

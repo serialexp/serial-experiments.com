@@ -1,4 +1,4 @@
-import { createResource, createSignal, createMemo, Show } from "solid-js";
+import { createResource, createSignal, createMemo, createEffect, Show } from "solid-js";
 import { Title } from "@solidjs/meta";
 import { A, useNavigate, useParams } from "@solidjs/router";
 import {
@@ -36,22 +36,23 @@ export default function PostEdit() {
   const [busy, setBusy] = createSignal(false);
   const [hydrated, setHydrated] = createSignal(false);
 
-  // Hydrate form when /admin/posts/:id loads.
-  if (id() != null) {
-    void (async () => {
-      const data = await existing();
-      if (!data) return;
-      setSlug(data.post.slug);
-      setTitle(data.post.title);
-      setSubtitle(data.post.subtitle ?? "");
-      setBodyMd(data.post.body_md);
-      setExcerpt(data.post.excerpt ?? "");
-      setTags(data.tags.map((t) => t.name).join(", "));
-      setPublishedAt(data.post.published_at ?? "");
-      setPublished(!!data.post.published_at);
-      setHydrated(true);
-    })();
-  }
+  // Populate the form once `existing` resolves. See the long comment in
+  // ProjectEdit.tsx — `createEffect` re-runs on every resource update so
+  // this works whether the resource was settled server-side (refresh /
+  // direct nav) or starts loading client-side (SPA nav from the list).
+  createEffect(() => {
+    const data = existing();
+    if (!data) return;
+    setSlug(data.post.slug);
+    setTitle(data.post.title);
+    setSubtitle(data.post.subtitle ?? "");
+    setBodyMd(data.post.body_md);
+    setExcerpt(data.post.excerpt ?? "");
+    setTags(data.tags.map((t) => t.name).join(", "));
+    setPublishedAt(data.post.published_at ?? "");
+    setPublished(!!data.post.published_at);
+    setHydrated(true);
+  });
 
   const isNew = createMemo(() => id() == null);
 

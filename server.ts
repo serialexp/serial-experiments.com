@@ -24,6 +24,8 @@ import { join } from "node:path";
 import { applyMigrations } from "./server/migrations";
 import { handleApi } from "./server/api";
 import { findSession, readSessionCookie, seedAdminFromEnv } from "./server/auth";
+import { streamUpload } from "./server/uploads";
+import { renderAtomFeed, renderFeedStylesheet, renderSitemap } from "./server/feed";
 
 const PORT = Number(process.env.PORT ?? 3001);
 const PUBLIC_ORIGIN_ENV = process.env.PUBLIC_ORIGIN ?? "";
@@ -140,7 +142,7 @@ Bun.serve({
         pathname.startsWith("/assets/") ||
         pathname === "/favicon.ico" ||
         pathname === "/robots.txt" ||
-        pathname === "/sitemap.xml" || // overridden by a real handler later
+        pathname.startsWith("/favicon-") ||
         pathname.startsWith("/logo")
       ) {
         const res = await tryStatic(pathname);
@@ -186,10 +188,57 @@ Bun.serve({
         return new Response(null, { status: 302, headers: { location: redirect } });
       }
 
-      // Uploads and feed handlers come in later steps.
-      if (pathname.startsWith("/uploads/") || pathname === "/feed.xml") {
+      // Uploads — stream from data/uploads/, gated by an existing DB row.
+      if (pathname.startsWith("/uploads/")) {
+        const rel = pathname.slice("/uploads/".length);
+        const res = await streamUpload(rel);
+        if (res) {
+          status = res.status;
+          return res;
+        }
         status = 404;
-        return new Response("not implemented\n", { status: 404 });
+        return new Response("not found\n", { status: 404 });
+      }
+
+      // Feed + sitemap. Both are pure functions of the DB; no caching layer
+      // here yet (sub-ms to render against SQLite for the volumes involved).
+      if (pathname === "/feed.xml") {
+        const origin = publicOrigin(req);
+        const xml = renderAtomFeed(origin);
+        return new Response(xml, {
+          headers: {
+            // We serve as `application/xml` rather than the technically
+            // more correct `application/atom+xml` because Chromium-family
+            // browsers refuse to apply `<?xml-stylesheet?>` PIs to
+            // `application/atom+xml` documents (they show raw text or
+            // download). `application/xml` triggers the in-browser XSL
+            // transform, giving humans a styled view at /feed.xml. Real
+            // feed readers identify Atom by sniffing the root element,
+            // not by MIME, so this is invisible to them.
+            "content-type": "application/xml; charset=utf-8",
+            "cache-control": "public, max-age=300",
+          },
+        });
+      }
+      if (pathname === "/feed.xsl") {
+        // Stylesheet referenced by the Atom feed's `<?xml-stylesheet?>` PI.
+        // Pure function, no DB access — cache aggressively.
+        return new Response(renderFeedStylesheet(), {
+          headers: {
+            "content-type": "text/xsl; charset=utf-8",
+            "cache-control": "public, max-age=86400",
+          },
+        });
+      }
+      if (pathname === "/sitemap.xml") {
+        const origin = publicOrigin(req);
+        const xml = renderSitemap(origin);
+        return new Response(xml, {
+          headers: {
+            "content-type": "application/xml; charset=utf-8",
+            "cache-control": "public, max-age=300",
+          },
+        });
       }
 
       // Everything else: SSR.

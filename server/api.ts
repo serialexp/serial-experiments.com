@@ -1,5 +1,8 @@
 /// <reference types="bun-types" />
 import * as posts from "./posts";
+import * as projects from "./projects";
+import * as uploads from "./uploads";
+import { search } from "./search";
 import {
   checkCsrf,
   clearSessionCookie,
@@ -44,6 +47,48 @@ export async function handleApi(req: Request, url: URL, user: User | null): Prom
     if (!post) return Response.json({ error: "not found" }, { status: 404 });
     const tags = posts.tagsForPost(post.id);
     return Response.json({ post, tags });
+  }
+
+  // GET /api/tags — every tag with at least one published post
+  if (pathname === "/api/tags" && method === "GET") {
+    return Response.json({ items: posts.listAllTags() });
+  }
+
+  // GET /api/tags/:slug — published posts under one tag
+  const tagMatch = /^\/api\/tags\/([^/]+)$/.exec(pathname);
+  if (tagMatch && method === "GET") {
+    const slug = tagMatch[1];
+    const items = posts.listByTag(slug);
+    return Response.json({ slug, items });
+  }
+
+  // GET /api/projects — all published projects, gallery summary
+  if (pathname === "/api/projects" && method === "GET") {
+    return Response.json({ items: projects.listPublished() });
+  }
+
+  // GET /api/projects/:slug — single published project
+  const projectMatch = /^\/api\/projects\/([^/]+)$/.exec(pathname);
+  if (projectMatch && method === "GET") {
+    const project = projects.getBySlug(projectMatch[1]);
+    if (!project) return Response.json({ error: "not found" }, { status: 404 });
+    return Response.json({ project });
+  }
+
+  // GET /api/search?q=... — FTS5-backed search over posts
+  if (pathname === "/api/search" && method === "GET") {
+    const q = (url.searchParams.get("q") ?? "").trim();
+    if (!q) return Response.json({ q: "", items: [] });
+    const limit = clampInt(url.searchParams.get("limit"), 1, 100, 25);
+    try {
+      return Response.json({ q, items: search(q, limit) });
+    } catch (err) {
+      // FTS5 can still throw if the cleaned query is empty after our filter
+      // pass (or if a future change leaks bad syntax). Treat as zero hits
+      // instead of leaking a 500 to clients.
+      console.warn("[search] query failed:", (err as Error).message);
+      return Response.json({ q, items: [] });
+    }
   }
 
   // POST /api/login
@@ -97,6 +142,12 @@ export async function handleApi(req: Request, url: URL, user: User | null): Prom
   // is enforced for state-changing methods.
   if (pathname.startsWith("/api/admin/posts") && user) {
     return handleAdminPosts(req, url, user, method);
+  }
+  if (pathname.startsWith("/api/admin/projects") && user) {
+    return handleAdminProjects(req, url, user, method);
+  }
+  if (pathname.startsWith("/api/admin/uploads") && user) {
+    return handleAdminUploads(req, url, user, method);
   }
 
   return null;
@@ -165,6 +216,144 @@ async function handleAdminPosts(
   }
 
   return null;
+}
+
+async function handleAdminProjects(
+  req: Request,
+  url: URL,
+  user: User,
+  method: string,
+): Promise<Response | null> {
+  const pathname = url.pathname;
+
+  if (pathname === "/api/admin/projects" && method === "GET") {
+    return Response.json({ items: projects.listAll() });
+  }
+
+  if (pathname === "/api/admin/projects" && method === "POST") {
+    if (!checkCsrf(req, user)) return csrfError();
+    const body = await readJson(req);
+    if (!body) return badRequest("invalid json");
+    const input = parseProjectInput(body);
+    if (typeof input === "string") return badRequest(input);
+    try {
+      const project = await projects.create(input);
+      return Response.json({ project }, { status: 201 });
+    } catch (err) {
+      return badRequest(`create failed: ${(err as Error).message}`);
+    }
+  }
+
+  const idMatch = /^\/api\/admin\/projects\/(\d+)$/.exec(pathname);
+  if (idMatch) {
+    const id = Number(idMatch[1]);
+    const existing = projects.getById(id);
+    if (!existing) return Response.json({ error: "not found" }, { status: 404 });
+
+    if (method === "GET") {
+      return Response.json({ project: existing });
+    }
+
+    if (method === "PATCH") {
+      if (!checkCsrf(req, user)) return csrfError();
+      const body = await readJson(req);
+      if (!body) return badRequest("invalid json");
+      const input = parseProjectInput(body);
+      if (typeof input === "string") return badRequest(input);
+      try {
+        const project = await projects.update(id, input);
+        return Response.json({ project });
+      } catch (err) {
+        return badRequest(`update failed: ${(err as Error).message}`);
+      }
+    }
+
+    if (method === "DELETE") {
+      if (!checkCsrf(req, user)) return csrfError();
+      projects.remove(id);
+      return new Response(null, { status: 204 });
+    }
+  }
+
+  return null;
+}
+
+async function handleAdminUploads(
+  req: Request,
+  url: URL,
+  user: User,
+  method: string,
+): Promise<Response | null> {
+  const pathname = url.pathname;
+
+  // GET /api/admin/uploads — library
+  if (pathname === "/api/admin/uploads" && method === "GET") {
+    return Response.json({ items: uploads.listAll() });
+  }
+
+  // POST /api/admin/uploads — multipart, accepts one or many `file` fields
+  if (pathname === "/api/admin/uploads" && method === "POST") {
+    if (!checkCsrf(req, user)) return csrfError();
+    let form: FormData;
+    try {
+      form = await req.formData();
+    } catch {
+      return badRequest("invalid multipart body");
+    }
+    const files = form.getAll("file").filter((f): f is File => f instanceof File);
+    if (files.length === 0) return badRequest("no files");
+
+    const saved: uploads.Upload[] = [];
+    const failed: { name: string; error: string }[] = [];
+    for (const file of files) {
+      try {
+        saved.push(await uploads.saveFile(file));
+      } catch (err) {
+        failed.push({
+          name: file.name,
+          error: err instanceof uploads.UploadError ? err.message : (err as Error).message,
+        });
+      }
+    }
+    return Response.json({ saved, failed }, { status: failed.length && !saved.length ? 400 : 201 });
+  }
+
+  // DELETE /api/admin/uploads/:id
+  const idMatch = /^\/api\/admin\/uploads\/(\d+)$/.exec(pathname);
+  if (idMatch && method === "DELETE") {
+    if (!checkCsrf(req, user)) return csrfError();
+    const id = Number(idMatch[1]);
+    uploads.removeById(id);
+    return new Response(null, { status: 204 });
+  }
+
+  return null;
+}
+
+function parseProjectInput(body: Record<string, unknown>): projects.ProjectInput | string {
+  const slug = typeof body.slug === "string" ? body.slug.trim() : "";
+  const title = typeof body.title === "string" ? body.title.trim() : "";
+  const summary = typeof body.summary === "string" ? body.summary.trim() : "";
+
+  if (!slug) return "slug is required";
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug)) return "slug must be lowercase letters/numbers/hyphens";
+  if (!title) return "title is required";
+  if (!summary) return "summary is required";
+
+  const body_md = typeof body.body_md === "string" && body.body_md.trim() ? body.body_md : null;
+  const image_path = typeof body.image_path === "string" && body.image_path.trim() ? body.image_path.trim() : null;
+  const link_url = typeof body.link_url === "string" && body.link_url.trim() ? body.link_url.trim() : null;
+  const sort_order = typeof body.sort_order === "number" && Number.isFinite(body.sort_order)
+    ? Math.trunc(body.sort_order)
+    : 0;
+  const published = body.published === true || body.published === 1 || body.published === "1" || body.published === "true";
+
+  // Reject obviously bad URLs to keep the data clean — we don't sanitize at
+  // render time because templates render this attribute literally.
+  if (link_url && !/^https?:\/\//i.test(link_url)) return "link_url must start with http(s)://";
+  if (image_path && !image_path.startsWith("/uploads/")) return "image_path must point at /uploads/...";
+
+  return { slug, title, summary, body_md, image_path, link_url, sort_order, published };
 }
 
 async function readJson(req: Request): Promise<Record<string, unknown> | null> {
