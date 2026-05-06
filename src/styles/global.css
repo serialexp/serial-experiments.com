@@ -18,7 +18,7 @@
   --accent: #60b0f4;      /* logo blue */
   --accent-dim: #5b779a;
   --border: #2a3550;
-  --scanline: rgba(91, 119, 154, 0.18);
+  --scanline: rgba(91, 119, 154, 0.08);
   --aberration-r: rgba(255, 0, 0, 0.06);
   --aberration-g: rgba(0, 255, 0, 0.02);
   --aberration-b: rgba(0, 0, 255, 0.06);
@@ -79,6 +79,7 @@ code, pre {
     linear-gradient(90deg, var(--aberration-r), var(--aberration-g), var(--aberration-b)) 0 0 / 1px 100%;
 }
 
+
 /* Page shell */
 .page {
   max-width: var(--col-width);
@@ -95,17 +96,25 @@ code, pre {
   margin-bottom: 2rem;
 }
 
-.brand {
+.brand,
+.brand:hover {
+  /* The global `a:hover` rule flips `border-bottom-style` to `solid`. The
+     base `a` rule sets a 1px dotted border, so without the hover override
+     the brand link grows a 1px line on hover and bumps the header down.
+     Suppress both states explicitly. */
   border-bottom: none;
+}
+.brand {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.6rem;
   color: var(--fg);
 }
 .brand-mark {
-  color: var(--accent);
-  font-weight: 700;
-  letter-spacing: -2px;
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: none;
 }
 .brand-name {
   font-weight: 600;
@@ -146,8 +155,17 @@ main {
 }
 .home .hero h1 {
   font-size: 2.2rem;
-  color: var(--accent);
   margin-bottom: 0.5rem;
+  /* Subtle white→blue gradient. `background-clip: text` paints the
+     gradient onto the glyph fills only; the transparent `color` lets it
+     show through. The `color` fallback is the solid accent so browsers
+     without `background-clip: text` (rare in 2026, but safe) still see
+     a styled title rather than an unstyled black one. */
+  color: var(--accent);
+  background: linear-gradient(135deg, var(--fg) 0%, var(--accent) 80%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .home .hero .lede {
   color: var(--fg-dim);
@@ -469,6 +487,238 @@ main {
 .admin .back {
   margin-top: 2rem;
   font-size: 0.9rem;
+}
+
+/* Projects gallery */
+.project-grid {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1rem;
+}
+.project-card {
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: border-color 120ms ease;
+}
+.project-card:hover {
+  border-color: var(--accent-dim);
+}
+.project-card a,
+.project-card .project-static {
+  display: block;
+  padding: 0.9rem 1rem 1rem;
+  color: inherit;
+  border-bottom: none;
+  text-decoration: none;
+}
+.project-card .project-img {
+  display: block;
+  width: 100%;
+  height: 9rem;
+  object-fit: cover;
+  margin: -0.9rem -1rem 0.75rem;
+  width: calc(100% + 2rem);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.project-card h2 {
+  font-size: 1rem;
+  color: var(--accent);
+  margin: 0 0 0.4em;
+}
+.project-card .summary {
+  margin: 0;
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.project-card .ext {
+  margin: 0.5em 0 0;
+  color: var(--accent-dim);
+  font-size: 0.8rem;
+}
+
+/* Project detail */
+.project header {
+  margin-bottom: 1.5rem;
+}
+.project header h1 {
+  color: var(--accent);
+  font-size: 1.6rem;
+  margin-bottom: 0.25em;
+}
+.project header .summary {
+  color: var(--fg-dim);
+  margin: 0 0 0.5em;
+}
+.project-hero {
+  display: block;
+  width: 100%;
+  max-height: 18rem;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  margin: 0 0 1.5rem;
+}
+
+/* Search */
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 1.5rem;
+}
+.search-form input[type="search"] {
+  flex: 1;
+  font: inherit;
+  padding: 0.5em 0.6em;
+  background: var(--bg-raised);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.search-form input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.search-form button {
+  font: inherit;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.search-count {
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+}
+.search-results {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.search-results .title {
+  font-weight: 600;
+}
+.search-results .meta {
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+}
+.search-results .subtitle {
+  margin: 0.1em 0 0;
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+}
+.search-results .snippet {
+  margin: 0.4em 0 0;
+  color: var(--fg-dim);
+  font-size: 0.9rem;
+}
+.search-results .snippet mark {
+  background: rgba(96, 176, 244, 0.18);
+  color: var(--fg);
+  padding: 0 1px;
+  border-radius: 1px;
+}
+
+/* Tags */
+.tag-cloud {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+.tag-cloud li {
+  white-space: nowrap;
+}
+.tag-cloud .tag {
+  border-bottom: 1px dotted var(--accent-dim);
+}
+.tag-cloud .count {
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+}
+
+/* Uploads */
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin: 1rem 0 1.5rem;
+  text-align: center;
+  color: var(--fg-dim);
+  transition: border-color 120ms ease, background 120ms ease;
+}
+.dropzone.is-dragging {
+  border-color: var(--accent);
+  background: var(--bg-raised);
+}
+.dropzone p {
+  margin: 0.25em 0;
+}
+.dropzone .hint {
+  font-size: 0.8rem;
+}
+
+.upload-grid {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.75rem;
+}
+.upload-tile {
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  border-radius: 2px;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+.upload-tile a {
+  border-bottom: none;
+}
+.upload-tile img {
+  width: 100%;
+  height: 8rem;
+  object-fit: cover;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.upload-tile .meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  word-break: break-all;
+}
+.upload-tile .path {
+  color: var(--fg);
+}
+.upload-tile .size {
+  color: var(--fg-dim);
+}
+.upload-tile .row-actions {
+  font-size: 0.85rem;
+  color: var(--fg-dim);
+}
+.upload-summary {
+  color: var(--fg-dim);
+  font-size: 0.85rem;
 }
 
 /* 404 */

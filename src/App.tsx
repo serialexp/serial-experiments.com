@@ -1,7 +1,9 @@
 import { type ParentProps, Show, Suspense } from "solid-js";
-import { A } from "@solidjs/router";
+import { A, useLocation } from "@solidjs/router";
 import { MetaProvider, Title, Meta } from "@solidjs/meta";
 import { useSSRContext } from "./lib/ssrContext";
+import logo1x from "./assets/logo-64.png";
+import logo2x from "./assets/logo-128.png";
 import "./styles/global.css";
 
 /**
@@ -14,6 +16,7 @@ import "./styles/global.css";
  */
 export default function App(props: ParentProps) {
   const ctx = useSSRContext();
+  const loc = useLocation();
 
   return (
     <MetaProvider>
@@ -27,13 +30,22 @@ export default function App(props: ParentProps) {
       <div class="page">
         <header class="site-header">
           <A href="/" class="brand">
-            <span class="brand-mark" aria-hidden="true">◢◣</span>
+            <img
+              class="brand-mark"
+              src={logo1x}
+              srcset={`${logo1x} 1x, ${logo2x} 2x`}
+              width="32"
+              height="32"
+              alt=""
+              aria-hidden="true"
+            />
             <span class="brand-name">Serial Experiments</span>
           </A>
           <nav class="site-nav" aria-label="Primary">
             <A href="/posts">posts</A>
             <A href="/projects">projects</A>
             <A href="/tags">tags</A>
+            <A href="/search">search</A>
             <Show when={ctx.user} fallback={null}>
               <A href="/admin" class="admin-link">admin</A>
             </Show>
@@ -48,6 +60,12 @@ export default function App(props: ParentProps) {
 
         <footer class="site-footer">
           <span>— Serial Experiments · est. 2009 —</span>
+          <span class="footer-sep"> · </span>
+          <a href="/feed.xml">feed</a>
+          <span class="footer-sep"> · </span>
+          <span style={{ "font-family": "monospace", "font-size": "0.8rem", opacity: "0.6" }}>
+            [route: {loc.pathname}]
+          </span>
         </footer>
       </div>
     </MetaProvider>
