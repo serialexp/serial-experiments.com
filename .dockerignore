@@ -1,0 +1,47 @@
+# Build context exclusions. The build only needs source + lockfile; everything
+# below either bloats the context or breaks reproducibility (host node_modules,
+# dev databases, editor state).
+
+# Dependencies — re-installed from lockfile inside the builder.
+node_modules/
+
+# Build output — re-generated inside the builder.
+dist/
+dist-*/
+
+# Runtime data — never goes into an image.
+data/
+
+# Editor / OS noise.
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Env / secrets — supplied by Portainer at runtime.
+.env
+.env.local
+.env.*.local
+
+# Caches.
+.vite/
+.bun-cache/
+
+# Hugo archive — kept in repo for visual reference, not for shipping.
+old/
+old2/
+
+# Tooling that the image doesn't need.
+.github/
+depot.json
+README.md
+TODO.md
+CURRENT_TASK.md
+
+# Generator script outputs are committed; the script itself isn't run inside
+# the image. Keep the script in case someone runs it from the runtime
+# container (rare), but exclude its inputs that we don't need.
+
+# Git metadata.
+.git/
+.gitignore

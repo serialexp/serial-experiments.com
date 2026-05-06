@@ -1,0 +1,46 @@
+# Compose file used both for local container testing and as the source for
+# the Portainer stack. Local: `docker compose up --build` from the repo root
+# pulls everything together with a bind-mounted ./data so reads after a
+# container restart still see your edits.
+#
+# In Portainer the only changes are:
+#   - replace `build: .` with `image: serialexp/serial-experiments-com:latest`
+#     (the tag pushed by .github/workflows/docker.yml)
+#   - swap the bind mount for a named volume (see commented block below)
+#   - join the external `caddy` network so the host Caddy can reverse-proxy
+#     to it.
+
+services:
+  serialexperiments:
+    build: .
+    # image: serialexp/serial-experiments-com:latest   # Portainer
+    restart: unless-stopped
+    ports:
+      - "3001:3001"   # remove in Portainer; Caddy talks on the internal network
+    environment:
+      PORT: "3001"
+      # Set on the production stack only. Locally these can be missing —
+      # the boot logs warn that admin login is disabled in that case.
+      # Provide either ADMIN_PASSWORD (plaintext, hashed at boot) OR
+      # ADMIN_PASSWORD_HASH (pre-computed argon2). If both are set,
+      # ADMIN_PASSWORD wins. Setting ADMIN_PASSWORD on a running stack
+      # also resets the existing user's password — restart to apply.
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-}
+      # Override when serving through a proxy that strips X-Forwarded-* —
+      # otherwise the request headers drive canonical URL detection.
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
+    volumes:
+      - ./data:/app/data
+    # Portainer block (replaces the bind-mount above):
+    # volumes:
+    #   - serialexperiments-data:/app/data
+    # networks: [caddy]
+
+# Portainer-only definitions:
+# volumes:
+#   serialexperiments-data:
+# networks:
+#   caddy:
+#     external: true
